@@ -1,4 +1,4 @@
-#include "../incl/CarWash.h"
+#include "CarWash.h"
 #include <vector>
 #include <string>
 CarWash::CarWash(){}
@@ -19,3 +19,5 @@ void CarWash::setId(int id){ this->id = id;}
 
 std::vector<int> CarWash::getCarIds(){ return this->carIds; }
 void CarWash::setCarIds(std::vector<int> carIds){ this->carIds = carIds; }
+
+CarWash::~CarWash(){}

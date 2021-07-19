@@ -1,4 +1,5 @@
-#include "../incl/Car.h"
+#include "Car.h"
+#include "Entity.h"
 #include <string>
 Car::Car(){}
 Car::Car(std::string name, std::string owner,std::string plateNumber, int id){
@@ -18,8 +19,9 @@ void Car::setOwner(std::string owner){ this->owner = owner;}
 std::string Car::getPlateNumber(){ return this->plateNumber;}
 void Car::setPlateNumber(std::string plateNumber){ this->plateNumber = plateNumber;}
 
-int Car::getCarId(){ return this->carId; }
-void Car::setCarId(int carId){ this->carId = carId; }
+int Car::getId(){ return this->carId; }
+void Car::setId(int carId){ this->carId = carId; }
 
-int Car::getCarWashId(){ return this->carWashId; }
-void Car::setCarWashId(int id){ this->carWashId = id; }
+
+
+Car::~Car(){}

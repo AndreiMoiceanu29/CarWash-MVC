@@ -1,8 +1,8 @@
-#include "incl/Repository.h"
-#include "incl/Service.h"
-#include "incl/Console.h"
-#include "incl/Car.h"
-#include "incl/CarWash.h"
+#include "Repository.h"
+#include "Service.h"
+#include "Console.h"
+#include "Car.h"
+#include "CarWash.h"
 
 int main(){
 	Repository<Car> carRepo = Repository<Car>();
@@ -10,5 +10,4 @@ int main(){
 	Service service = Service(carRepo,carWashRepo);
 	Console console = Console(service);
 	console.run();
-
 }

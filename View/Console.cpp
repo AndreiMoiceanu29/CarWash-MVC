@@ -1,9 +1,10 @@
-#include "../incl/Car.h"
-#include "../incl/CarWash.h"
-#include "../incl/Service.h"
-#include "../incl/Console.h"
+#include "Car.h"
+#include "CarWash.h"
+#include "Service.h"
+#include "Console.h"
 #include <iostream>
 #include <string>
+#include <cstdio>
 
 Console::Console(Service service){
 	this->service = service;
@@ -33,6 +34,7 @@ void Console::run(){
 			case 8: handleDeleteCarWash();
 			break;
 			case 9: handleMakeReservation();
+			break;
 			case 10: hasExited = true; 
 			break;
 			default: std::cout << "Wrong option please try again !" << std::endl;
@@ -91,7 +93,7 @@ void Console::handleDeleteCar(){
 	Car deletedCar;
 	std::cout << "Please enter the ID of the car you wish to delete" << std::endl;
 	std::cin >> id;
-	deletedCar = this->service.deletedCar(id);
+	deletedCar = this->service.deleteCar(id);
 }
 
 void Console::handleAddCarWash(){
@@ -139,6 +141,7 @@ void Console::handleMakeReservation(){
 	std::cout << "Please choose where you want to wash your car" << std::endl;
 	displayAllCarWash();
 	std::cin >> carWashId;
+
 	this->service.makeReservation(carId,carWashId);
 }
 
@@ -152,11 +155,13 @@ Car Console::readCar(){
 	std::cout << "Enter the Car's name:" << std::endl;
 	std::cin.ignore();
 	std::getline(std::cin,name,'\n');
+
 	std::cout << "Enter the Car's owner:" << std::endl;
-	std::cin.ignore();
+	//std::cin.ignore();
+
 	std::getline(std::cin,owner,'\n');
 	std::cout << "Enter the Car's plate number:" << std::endl;
-	std::cin.ignore();
+	//std::cin.ignore();
 	std::getline(std::cin,plateNumber,'\n');
 	std::cout << "Enter the Car's id" << std::endl;
 	std::cin >> id;
@@ -180,7 +185,7 @@ CarWash Console::readCarWash(){
 	std::cin.ignore();
 	std::getline(std::cin,name,'\n');
 	std::cout << "Enter the owner of the car wash:" << std::endl;
-	std::cin.ignore();
+	
 	std::getline(std::cin,owner,'\n');
 	std::cout << "Enter a uniquie ID:" << std::endl;
 	std::cin >> id;
@@ -191,19 +196,21 @@ CarWash Console::readCarWash(){
 }
 
 void Console::displayCarWash(CarWash& carWash){
+	Car temp;
 	std::cout << "Name:" << carWash.getName() << std::endl;
 	std::cout << "Owner:" << carWash.getOwner() << std::endl;
 	std::vector<int> ids = carWash.getCarIds();
 	std::cout <<"Cars with reservation:" << std::endl;
 	for(auto id: ids){
-		displayCar(this->service.readCar(id));
+		temp = this->service.readCar(id);
+		displayCar(temp);
 	}
 }
 
 void Console::displayAllCarWash(){
 	std::vector<CarWash> carWashes = this->service.getAllCarWashes();
 	for(auto carWash: carWashes){
-		std::cout << "ID: " << carWash.getId() << "Name: " << carWash.getName() << std::endl;
+		std::cout << "ID: " << carWash.getId() << " Name: " << carWash.getName() << std::endl;
 	}
 }
 
