@@ -1,5 +1,6 @@
 CC=g++
-COMPILE_FLAGS=-Wall -Wextra  -Wstrict-aliasing -pedantic -fmax-errors=5 -Werror -Wunreachable-code -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option -g -c
+# COMPILE_FLAGS=-Wall -Wextra  -Wstrict-aliasing -pedantic  -Werror -Wunreachable-code -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option -g -c
+COMPILE_FLAGS=-Wall -Wextra
 INC_DIRECTORY=inc
 INCLUDE_FLAG=-I$(INC_DIRECTORY)
 BUILD_DIRECTORY=build
@@ -46,7 +47,22 @@ COMPILE_FILES=$(COMPILE_MODEL_FILES) $(COMPILE_SERVICE_FILES) $(COMPILE_VIEW_FIL
 
 LINK=$(CC) $(COMPILE_OBJECT_FILES_MAIN) -o $(BUILD_DIRECTORY)/$(OUTPUT_FILE)
 
-test_build: build_objects test_build_objects test_link test_clean
+test_coverage: test_build generate_info generate_html move_lcov_files run_test
+
+test_build: build_objects_coverage test_build_objects test_link test_clean
+
+generate_info:
+	lcov -c -o report.info -b . -d .
+
+generate_html:
+	genhtml report.info -o Report
+
+move_lcov_files:
+	mv *.gcda Report/
+	mv *.gcno Report/
+
+run_test:
+	./$(BUILD_DIRECTORY)/$(TEST_OUTPUT_FILE)
 
 test_clean:
 	rm -f $(TEST_COMPILE_OBJECT_FILES)
@@ -57,7 +73,7 @@ test_link:
 test_build_objects: test_compile_objects move_test_objects
 
 move_test_objects:
-	mv *.o build/
+	mv $(TEST_OBJECTS) build/
 
 test_compile_objects:
 	$(TEST_COMPILE) $(TEST_COMPILE_FILES_WITH_MAIN) -c 
@@ -71,13 +87,16 @@ build: build_objects link clean
 run:
 	./$(BUILD_DIRECTORY)/$(OUTPUT_FILE)
 
+build_objects_coverage: compile_objects_coverage move_objects
 build_objects: compile_objects move_objects
 
-compile_objects:
+compile_objects_coverage:
 	$(COMPILE) $(COMPILE_FILES) -fprofile-arcs -ftest-coverage -c
+compile_objects:
+	$(COMPILE) $(COMPILE_FILES) -c
 
 move_objects:
-	mv *.o build/
+	mv $(OBJECTS_WITH_MAIN) build/
 
 link:
 	$(LINK)
