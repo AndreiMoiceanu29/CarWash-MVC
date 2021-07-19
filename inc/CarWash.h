@@ -19,8 +19,7 @@ public:
 	void setName(std::string);
 	std::string getOwner();
 	void setOwner(std::string);
-	int getId();
-	void setId(int);
+	
 	std::vector<int> getCarIds();
 	void setCarIds(std::vector<int>);
 

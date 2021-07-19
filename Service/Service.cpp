@@ -6,9 +6,9 @@
 #include <iostream>
 Service::Service(){}
 
-Service::Service(Repository<Car> carRepo, Repository<CarWash> carWashRepo){
-	this->carRepo = carRepo;
-	this->carWashRepo = carWashRepo;
+Service::Service(Repository<Car> carRepository, Repository<CarWash> carWashRepository){
+	this->carRepo = carRepository;
+	this->carWashRepo = carWashRepository;
 }
 
 void Service::createCar(Car& car){

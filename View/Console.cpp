@@ -6,8 +6,8 @@
 #include <string>
 #include <cstdio>
 
-Console::Console(Service service){
-	this->service = service;
+Console::Console(Service serv){
+	this->service = serv;
 }
 
 void Console::run(){

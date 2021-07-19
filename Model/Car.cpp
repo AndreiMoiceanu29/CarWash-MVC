@@ -2,25 +2,24 @@
 #include "Entity.h"
 #include <string>
 Car::Car(){}
-Car::Car(std::string name, std::string owner,std::string plateNumber, int id){
-	this->name = name;
-	this->owner = owner;
-	this->plateNumber = plateNumber;
-	this->carId = id;
-	this->carWashId = -1;
+Car::Car(std::string carName, std::string carOwner,std::string plateNum, int carId){
+	this->name = carName;
+	this->owner = carOwner;
+	this->plateNumber = plateNum;
+	this->id = carId;
+
 }
 
 std::string Car::getName(){ return this->name; }
-void Car::setName(std::string name){ this->name = name;}
+void Car::setName(std::string carName){ this->name = carName;}
 
 std::string Car::getOwner(){ return this->owner;}
-void Car::setOwner(std::string owner){ this->owner = owner;}
+void Car::setOwner(std::string carOwner){ this->owner = carOwner;}
 
 std::string Car::getPlateNumber(){ return this->plateNumber;}
-void Car::setPlateNumber(std::string plateNumber){ this->plateNumber = plateNumber;}
+void Car::setPlateNumber(std::string plateNum){ this->plateNumber = plateNum;}
 
-int Car::getId(){ return this->carId; }
-void Car::setId(int carId){ this->carId = carId; }
+
 
 
 

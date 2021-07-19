@@ -9,8 +9,8 @@ private:
 	std::string name;
 	std::string owner;
 	std::string plateNumber;
-	int carId;
-	int carWashId;
+	
+	
 public:
 	Car();
 	Car(std::string,std::string,std::string,int);
@@ -21,8 +21,7 @@ public:
 	void setOwner(std::string);
 	std::string getPlateNumber();
 	void setPlateNumber(std::string);
-	int getId();
-	void setId(int);
+	
 	
 
 	~Car();
