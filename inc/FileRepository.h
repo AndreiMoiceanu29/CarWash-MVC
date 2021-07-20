@@ -57,9 +57,9 @@ public:
 				if(ifs.eof()) break;
 				Car car(name,owner,plateNumber,std::stoi(id));
 
-				void *entity = &car;
-				T *entity2 =  static_cast<T*>(entity);
-				this->addEntity(*entity2);
+				T *entity =  static_cast<T*>(static_cast<void*>(&car));
+
+				this->addEntity(*entity);
 
 			}
 		} else if(instanceof<CarWash>(&object_type)){
@@ -73,9 +73,9 @@ public:
 				if(ifs.eof()) break;
 				CarWash carWash(name,owner,std::stoi(id));
 
-				void *entity = &carWash;
-				T *entity2 =  static_cast<T*>(entity);
-				this->addEntity(*entity2);
+				T *entity =  static_cast<T*>(static_cast<void*>(&carWash));
+
+				this->addEntity(*entity);
 			}
 		}
 		ifs.close();
@@ -86,18 +86,15 @@ public:
 		std::ofstream ofs(this->fileName);
 		for(auto obj: this->database){
 			if(instanceof<Car>(&object_type)){
-				void *entity = &obj;
-				Car *entity2 =  static_cast<Car*>(entity);
-				Car car = *entity2;
+				Car car = *static_cast<Car*>(static_cast<void*>(&obj));
 
 				ofs << car.getId() << ",";
 				ofs << car.getName() << ",";
 				ofs << car.getPlateNumber() << ",";
 				ofs << car.getOwner() << std::endl;
 			} else if(instanceof<CarWash>(&object_type)) {
-				void *entity = &obj;
-				CarWash *entity2 =  static_cast<CarWash*>(entity);
-				CarWash carWash = *entity2;
+				CarWash carWash = *static_cast<CarWash*>(static_cast<void*>(&obj));
+
 
 				ofs << carWash.getId() << ",";
 				ofs << carWash.getName() << ",";
