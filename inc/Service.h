@@ -3,17 +3,18 @@
 
 #include "CarWash.h"
 #include "Car.h"
-#include "Repository.h"
+#include "MemoryRepository.h"
 #include "Validator.h"
 
 class Service
 {
-	Repository<Car> carRepo;
-	Repository<CarWash> carWashRepo;
+	IRepository<Car>* carRepo;
+	IRepository<CarWash>* carWashRepo;
 	Validator dataValidator;
 public:
 	Service();
-	Service(Validator, Repository<Car>, Repository<CarWash>);
+	Service(IRepository<Car>*, IRepository<CarWash>*);
+	Service(Validator, IRepository<Car>*, IRepository<CarWash>*);
 	
 	void createCar(Car&);
 	Car readCar(int id);

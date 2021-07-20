@@ -1,5 +1,5 @@
-#include "Repository.h"
-class TestRepository
+#include "MemoryRepository.h"
+class TestMemoryRepository
 {
 private:
 	void TestGetAndAddEntity();
@@ -7,7 +7,7 @@ private:
 	void TestGetAllEntities();
 	void TestDeleteEntity();
 public:
-	TestRepository();
+	TestMemoryRepository();
 	void TestAll();
 	
 };

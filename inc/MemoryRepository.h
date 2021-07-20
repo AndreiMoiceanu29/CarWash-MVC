@@ -1,16 +1,17 @@
-#ifndef H_REPOSITORY
-#define H_REPOSITORY
+#ifndef H_MemoryRepository
+#define H_MemoryRepository
 
 
 #include <vector>
+#include "IRepository.h"
 
-
-template <class T>
-class Repository{
+template <class T> 
+class MemoryRepository: public IRepository<T>{
+protected:
 	std::vector<T> database;
 
 public:
-	T getEntity(int id){
+	virtual T getEntity(int id){
 		T entity;
 		for(auto item: database){
 			if(item.getId() == id){
@@ -20,8 +21,8 @@ public:
 		}
 		return entity;
 	}
-	void addEntity(T& entity) { this->database.push_back(entity);}
-	T deleteEntity(int id){
+	virtual void addEntity(T& entity) { this->database.push_back(entity);}
+	virtual T deleteEntity(int id){
 		T entity;
 	for(unsigned int i = 0; i < this->database.size();i++){
 		if(this->database[i].getId() == id){
@@ -32,7 +33,7 @@ public:
 	}
 	return entity;
 }
-	T updateEntity(T& oldEntity,T& newEntity){
+	virtual T updateEntity(T& oldEntity,T& newEntity){
 	oldEntity = deleteEntity(oldEntity.getId());
 	addEntity(newEntity);
 	return newEntity;

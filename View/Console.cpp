@@ -77,7 +77,14 @@ void Console::handleReadCar(){
 	Car car;
 	std::cout << "Please enter the car ID:" << std::endl;
 	std::cin >> id;
-	car = this->service.readCar(id);
+	try{
+		car = this->service.readCar(id);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg: msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 	displayCar(car);
 }
 
@@ -87,10 +94,24 @@ void  Console::handleUpdateCar(){
 	Car newCar;
 	std::cout << "Please enter the old car's ID:" << std::endl;
 	std::cin >> id;
-	oldCar = this->service.readCar(id);
+	try{
+		oldCar = this->service.readCar(id);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 	std::cout << "Please enter the new car's data:" << std::endl;
 	newCar = readCar();
-	newCar = this->service.updateCar(oldCar,newCar);
+	try{
+		newCar = this->service.updateCar(oldCar,newCar);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 
 }
 
@@ -99,14 +120,28 @@ void Console::handleDeleteCar(){
 	Car deletedCar;
 	std::cout << "Please enter the ID of the car you wish to delete" << std::endl;
 	std::cin >> id;
-	deletedCar = this->service.deleteCar(id);
+	try{
+		deletedCar = this->service.deleteCar(id);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 }
 
 void Console::handleAddCarWash(){
 	CarWash carWash;
 	std::cout << "Please enter the car wash data:" << std::endl;
 	carWash = readCarWash();
-	this->service.createCarWash(carWash);
+	try{
+		this->service.createCarWash(carWash);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 }
 
 void Console::handleReadCarWash(){
@@ -114,7 +149,14 @@ void Console::handleReadCarWash(){
 	CarWash carWash;
 	std::cout << "Please enter the car wash's ID:" << std::endl;
 	std::cin >> id;
-	carWash = this->service.readCarWash(id);
+	try{
+		carWash = this->service.readCarWash(id);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 	displayCarWash(carWash);
 }
 
@@ -124,10 +166,24 @@ void Console::handleUpdateCarWash(){
 	CarWash newCarWash;
 	std::cout << "Please enter the id of the old car wash" << std::endl;
 	std::cin >> id;
-	oldCarWash = this->service.readCarWash(id);
+	try{
+		oldCarWash = this->service.readCarWash(id);	
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 	std::cout << "Please enter the new car wash data" << std::endl;
 	newCarWash = readCarWash();
-	this->service.updateCarWash(oldCarWash,newCarWash);
+	try{
+		this->service.updateCarWash(oldCarWash,newCarWash);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 
 }
 
@@ -136,7 +192,14 @@ void Console::handleDeleteCarWash(){
 	CarWash deletedCarWash;
 	std::cout << "Please enter the ID of the CarWash you want to delete" << std::endl;
 	std::cin >> id;
-	this->service.deleteCarWash(id);
+	try{
+		this->service.deleteCarWash(id);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 }
 
 void Console::handleMakeReservation(){
@@ -147,8 +210,14 @@ void Console::handleMakeReservation(){
 	std::cout << "Please choose where you want to wash your car" << std::endl;
 	displayAllCarWash();
 	std::cin >> carWashId;
-
-	this->service.makeReservation(carId,carWashId);
+	try{
+		this->service.makeReservation(carId,carWashId);
+	}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+	
 }
 
 
@@ -208,7 +277,14 @@ void Console::displayCarWash(CarWash& carWash){
 	std::vector<int> ids = carWash.getCarIds();
 	std::cout <<"Cars with reservation:" << std::endl;
 	for(auto id: ids){
-		temp = this->service.readCar(id);
+		try{
+			temp = this->service.readCar(id);	
+		}catch(std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
+		
 		displayCar(temp);
 	}
 }

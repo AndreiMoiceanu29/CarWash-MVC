@@ -20,10 +20,10 @@ void TestEntity::TestSetId(){
 	Entity entity;
 	for(int i=-20;i<1000;i++){
 		entity.setId(i);
-		if(i < 0){
-			assert(entity.getId() == 0);
-		}else{
+		
+		
+		
 			assert(entity.getId() == i);
-		}
+		
 	}
 }
