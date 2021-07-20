@@ -4,6 +4,23 @@
 #include <fstream>
 #include <iostream>
 
+std::vector<std::string> split(const char *str, char c = ' ')
+{
+    std::vector<std::string> result;
+
+    do
+    {
+        const char *begin = str;
+
+        while(*str != c && *str)
+            str++;
+
+        result.push_back(std::string(begin, str));
+    } while (0 != *str++);
+
+    return result;
+}
+
 template<typename Base, typename T2>
 inline bool instanceof(const T2*) {
    return std::is_base_of<Base, T2>::value;
@@ -67,12 +84,22 @@ public:
 				std::string name;
 				std::string id;
 				std::string owner;
+				std::string carIdsUntokenized;
 				std::getline(ifs,id,',');
 				std::getline(ifs,name,',');
-				std::getline(ifs,owner,'\n');
+				std::getline(ifs,owner,',');
+				std::getline(ifs,carIdsUntokenized,'\n');
+				std::vector<std::string> carIds = split(carIdsUntokenized.c_str(),':');
+				std::vector<int> ids;
+				for(auto carId: carIds){
+					if(carId.size() != 0){
+						ids.push_back(stoi(carId));
+					}
+				}
+
 				if(ifs.eof()) break;
 				CarWash carWash(name,owner,std::stoi(id));
-
+				carWash.setCarIds(ids);
 				T *entity =  static_cast<T*>(static_cast<void*>(&carWash));
 
 				this->addEntity(*entity);
@@ -94,11 +121,16 @@ public:
 				ofs << car.getOwner() << std::endl;
 			} else if(instanceof<CarWash>(&object_type)) {
 				CarWash carWash = *static_cast<CarWash*>(static_cast<void*>(&obj));
-
+				std::vector<int> carIds = carWash.getCarIds();
 
 				ofs << carWash.getId() << ",";
 				ofs << carWash.getName() << ",";
-				ofs << carWash.getOwner() << std::endl;
+				ofs << carWash.getOwner() << ",";
+				for(auto id : carIds){
+					ofs << id << ":";
+				}
+				ofs << std::endl;
+
 			}
 		}
 		ofs.close();
