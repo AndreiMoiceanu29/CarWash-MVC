@@ -9,23 +9,31 @@ FLAGS=$(COMPILE_FLAGS) $(INCLUDE_FLAG)
 COMPILE=$(CC) $(FLAGS)
 
 # TEST SECTION
-
+REPORT_FILE=report.info
 TEST_OUTPUT_FILE=main_test
 TEST_DIRECTORY=tests
-TEST_FILES=TestCar.cpp TestCarWash.cpp TestEntity.cpp
+TEST_FILES=TestCar.cpp TestCarWash.cpp TestEntity.cpp TestRepository.cpp TestService.cpp
 TEST_COMPILE_FILES=$(TEST_FILES:%.cpp=$(TEST_DIRECTORY)/%.cpp)
 TEST_COMPILE_FILES_WITH_MAIN=$(TEST_COMPILE_FILES) $(TEST_DIRECTORY)/$(TEST_MAIN_FILE)
 TEST_MAIN_FILE = main_test.cpp
 TEST_MODEL_DIR = $(MODEL_DIRECTORY)
-
+REPORT_DIRECTORY=Report
 TEST_COMPILE=$(CC) $(INCLUDE_FLAG) -fprofile-arcs -ftest-coverage
 TEST_OBJECTS=$(TEST_FILES:%.cpp=%.o) $(TEST_MAIN_FILE:%.cpp=%.o)
-
+GCDA_TEST_OBJECTS=$(TEST_OBJECTS:%.o=%.gcda)
+GCNO_TEST_OBJECTS=$(TEST_OBJECTS:%.o=%.gcno)
+GCDA_OBJECTS=$(OBJECTS:%.o=%.gcda)
+GCNO_OBJECTS=$(OBJECTS_WITH_MAIN:%.o=%.gcno)
+COVERAGE_FILES=$(GCDA_TEST_OBJECTS) $(GCNO_TEST_OBJECTS) $(GCDA_OBJECTS) $(GCNO_OBJECTS) $(REPORT_FILE)
 TEST_COMPILE_OBJECT_FILES=$(TEST_OBJECTS:%.o=$(BUILD_DIRECTORY)/%.o)
 TEST_LINK = $(CC) -lgcov --coverage $(TEST_COMPILE_OBJECT_FILES) $(COMPILE_OBJECT_FILES) -o $(BUILD_DIRECTORY)/$(TEST_OUTPUT_FILE)
 
 # SOURCE FILES
 MAIN_FILE=main.cpp
+
+VALIDATOR_DIRECTORY=Validator
+VALIDATOR_FILES=Validator.cpp
+COMPILE_VALIDATOR_FILES=$(VALIDATOR_FILES:%.cpp=$(VALIDATOR_DIRECTORY)/%.cpp)
 
 MODEL_DIRECTORY=Model
 MODEL_FILES=Entity.cpp Car.cpp CarWash.cpp
@@ -39,27 +47,33 @@ VIEW_DIRECTORY=View
 VIEW_FILES=Console.cpp
 COMPILE_VIEW_FILES=$(VIEW_FILES:%.cpp=$(VIEW_DIRECTORY)/%.cpp) 
 
-OBJECTS=$(MODEL_FILES:%.cpp=%.o) $(SERVICE_FILES:%.cpp=%.o) $(VIEW_FILES:%.cpp=%.o) 
+OBJECTS=$(MODEL_FILES:%.cpp=%.o) $(SERVICE_FILES:%.cpp=%.o) $(VIEW_FILES:%.cpp=%.o) $(VALIDATOR_FILES:%.cpp=%.o)
 OBJECTS_WITH_MAIN=$(OBJECTS) $(MAIN_FILE:%.cpp=%.o)
 COMPILE_OBJECT_FILES=$(OBJECTS:%.o=$(BUILD_DIRECTORY)/%.o)
 COMPILE_OBJECT_FILES_MAIN=$(OBJECTS_WITH_MAIN:%.o=$(BUILD_DIRECTORY)/%.o)
-COMPILE_FILES=$(COMPILE_MODEL_FILES) $(COMPILE_SERVICE_FILES) $(COMPILE_VIEW_FILES) $(MAIN_FILE)
+COMPILE_FILES=$(COMPILE_MODEL_FILES) $(COMPILE_SERVICE_FILES) $(COMPILE_VIEW_FILES) $(COMPILE_VALIDATOR_FILES) $(MAIN_FILE)
 
 LINK=$(CC) $(COMPILE_OBJECT_FILES_MAIN) -o $(BUILD_DIRECTORY)/$(OUTPUT_FILE)
 
-test_coverage: test_build generate_info generate_html move_lcov_files run_test
+
+build_and_run:clean_all build run
+
+# TEST AND COVERAGE
+test_coverage:clean_all test_build run_test generate_info generate_html move_lcov_files open_firefox
 
 test_build: build_objects_coverage test_build_objects test_link test_clean
 
+open_firefox:
+	firefox $(REPORT_DIRECTORY)/index.html
+
 generate_info:
-	lcov -c -o report.info -b . -d .
+	lcov -c -o $(REPORT_FILE) -b . -d .
 
 generate_html:
-	genhtml report.info -o Report
+	genhtml $(REPORT_FILE) -o $(REPORT_DIRECTORY)
 
 move_lcov_files:
-	mv *.gcda Report/
-	mv *.gcno Report/
+	mv $(COVERAGE_FILES) $(REPORT_DIRECTORY)/
 
 run_test:
 	./$(BUILD_DIRECTORY)/$(TEST_OUTPUT_FILE)
@@ -79,7 +93,7 @@ test_compile_objects:
 	$(TEST_COMPILE) $(TEST_COMPILE_FILES_WITH_MAIN) -c 
 
 
-build_and_run: build run
+# BUILD AND REBUILD
 
 rebuild: clean_all build
 build: build_objects link clean
@@ -100,6 +114,8 @@ move_objects:
 
 link:
 	$(LINK)
+
+# CLEANING
 	
 clean:
 	rm -f $(COMPILE_OBJECT_FILES_MAIN)
@@ -107,3 +123,5 @@ clean:
 clean_all:
 	rm -f $(COMPILE_OBJECT_FILES_MAIN) 
 	rm -f $(BUILD_DIRECTORY)/$(OUTPUT_FILE)
+	rm -f $(BUILD_DIRECTORY)/$(TEST_OUTPUT_FILE)
+	rm -rf $(REPORT_DIRECTORY)

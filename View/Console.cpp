@@ -63,7 +63,13 @@ void Console::handleAddCar(){
 	Car car;
 	std::cout << "Please enter car's data:" << std::endl;
 	car = readCar();
-	this->service.createCar(car);
+	try{
+		this->service.createCar(car);
+	}catch (std::vector<std::string> msgs){
+		for(auto msg : msgs){
+			std::cout << msg << std::endl;
+		}
+	}
 }
 
 void Console::handleReadCar(){

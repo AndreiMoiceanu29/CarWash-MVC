@@ -4,14 +4,16 @@
 #include "CarWash.h"
 #include "Car.h"
 #include "Repository.h"
+#include "Validator.h"
 
 class Service
 {
 	Repository<Car> carRepo;
 	Repository<CarWash> carWashRepo;
+	Validator dataValidator;
 public:
 	Service();
-	Service(Repository<Car>, Repository<CarWash>);
+	Service(Validator, Repository<Car>, Repository<CarWash>);
 	
 	void createCar(Car&);
 	Car readCar(int id);

@@ -6,12 +6,14 @@
 #include <iostream>
 Service::Service(){}
 
-Service::Service(Repository<Car> carRepository, Repository<CarWash> carWashRepository){
+Service::Service(Validator dataVal, Repository<Car> carRepository, Repository<CarWash> carWashRepository){
 	this->carRepo = carRepository;
 	this->carWashRepo = carWashRepository;
+	this->dataValidator = dataVal;
 }
 
 void Service::createCar(Car& car){
+	this->dataValidator.validateCar(car);
 	this->carRepo.addEntity(car);
 }
 Car Service::readCar(int id){
@@ -60,7 +62,11 @@ void Service::makeReservation(int carId, int carWashId){
 	std::vector<int> carIds = this->carWashRepo.getEntity(carWashId).getCarIds();
 
 	carIds.push_back(carId);
-	this->carWashRepo.getEntity(carWashId).setCarIds(carIds);
+	std::cout << carIds.size() << std::endl;
+	CarWash oldWash = this->carWashRepo.getEntity(carWashId);
+	CarWash newWash = this->carWashRepo.getEntity(carWashId);
+	newWash.setCarIds(carIds);
+	this->carWashRepo.updateEntity(oldWash,newWash);
 }
 
 std::vector<CarWash> Service::getAllCarWashes(){

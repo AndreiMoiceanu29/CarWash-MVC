@@ -9,7 +9,7 @@ class CarWash: public Entity
 {
 	std::string name;
 	std::string owner;
-	int id;
+	
 	std::vector<int> carIds;
 public:
 	CarWash();

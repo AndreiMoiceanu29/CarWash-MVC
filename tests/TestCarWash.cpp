@@ -9,6 +9,7 @@ void TestCarWash::TestAll(){
 	this->TestGetAndSetName();
 	this->TestGetAndSetOwner();
 	this->TestGetAndSetCarIds();
+	this->TestConstructor();
 }
 
 void TestCarWash::TestGetAndSetName(){
@@ -36,6 +37,16 @@ void TestCarWash::TestGetAndSetCarIds(){
 	}
 	wash.setCarIds(ids);
 	carIds = wash.getCarIds();
+	for(int i=0;i<carIds.size();i++){
+		assert(carIds[i] == ids[i]);
+	}
 
+}
 
+void TestCarWash::TestConstructor(){
+	CarWash carWash("Self","Moiceanu Andrei",1);
+
+	assert(carWash.getName() == "Self");
+	assert(carWash.getOwner() == "Moiceanu Andrei"); 
+	assert(carWash.getId() == 1); 
 }

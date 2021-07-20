@@ -8,5 +8,5 @@ private:
 	void TestGetNameAndSetName();
 	void TestGetOwnerAndSetOwner();
 	void TestGetPlateAndSetPlate();
-	
+	void TestConstructor();
 };

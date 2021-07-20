@@ -7,7 +7,8 @@
 int main(){
 	Repository<Car> carRepo = Repository<Car>();
 	Repository<CarWash> carWashRepo = Repository<CarWash>();
-	Service service = Service(carRepo,carWashRepo);
+	Validator validator = Validator();
+	Service service = Service(validator, carRepo, carWashRepo);
 	Console console = Console(service);
 	console.run();
 }
