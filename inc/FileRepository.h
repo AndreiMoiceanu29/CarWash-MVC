@@ -17,13 +17,15 @@ namespace utils{
 
     return result;
 	}	
+
+	template<typename Base, typename T2>
+	inline bool instanceof(const T2*) {
+   		return std::is_base_of<Base, T2>::value;
+	}
+	
 }
 
 
-template<typename Base, typename T2>
-inline bool instanceof(const T2*) {
-   return std::is_base_of<Base, T2>::value;
-}
 
 template <class T>
 class FileRepository: public MemoryRepository<T>
@@ -60,7 +62,7 @@ public:
 		T object_type;
 		std::ifstream ifs(this->fileName);
 		
-		if(instanceof<Car>(&object_type)) {
+		if(utils::instanceof<Car>(object_type)) {
 			std::string name;
 			std::string owner;
 			std::string plateNumber;
@@ -71,14 +73,14 @@ public:
 				std::getline(ifs,plateNumber,',');
 				std::getline(ifs,owner,'\n');
 				if(ifs.eof()) break;
-				Car car(name,owner,plateNumber,std::stoi(id));
+				Car *car = new Car(name,owner,plateNumber,std::stoi(id));
 
 				T *entity =  static_cast<T*>(static_cast<void*>(&car));
 
 				this->addEntity(*entity);
 
 			}
-		} else if(instanceof<CarWash>(&object_type)){
+		} else if(utils::instanceof<CarWash>(&object_type)){
 			while(!ifs.eof()){
 				std::string name;
 				std::string id;
@@ -92,13 +94,15 @@ public:
 				std::vector<int> ids;
 				for(auto carId: carIds){
 					if(carId.size() != 0){
+						//Adauga carWash la masina;
+
 						ids.push_back(stoi(carId));
 					}
 				}
 
 				if(ifs.eof()) break;
-				CarWash carWash(name,owner,std::stoi(id));
-				carWash.setCarIds(ids);
+				CarWash* carWash = new CarWash(name,owner,std::stoi(id));
+				carWash->setCarIds(ids);
 				T *entity =  static_cast<T*>(static_cast<void*>(&carWash));
 
 				this->addEntity(*entity);
@@ -111,14 +115,14 @@ public:
 		T object_type;
 		std::ofstream ofs(this->fileName);
 		for(auto obj: this->database){
-			if(instanceof<Car>(&object_type)){
-				Car car = *static_cast<Car*>(static_cast<void*>(&obj));
+			if(utils::instanceof<Car>(&object_type)){
+				Car car = *static_cast<Car*>(static_cast<void*>(obj));
 
 				ofs << car.getId() << ",";
 				ofs << car.getName() << ",";
 				ofs << car.getPlateNumber() << ",";
 				ofs << car.getOwner() << std::endl;
-			} else if(instanceof<CarWash>(&object_type)) {
+			} else if(utils::instanceof<CarWash>(&object_type)) {
 				CarWash carWash = *static_cast<CarWash*>(static_cast<void*>(&obj));
 				std::vector<int> carIds = carWash.getCarIds();
 

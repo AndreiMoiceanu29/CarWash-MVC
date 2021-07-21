@@ -17,50 +17,52 @@ void TestMemoryRepository::TestAll(){
 
 
 void TestMemoryRepository::TestGetAndAddEntity(){
-	MemoryRepository<Car> carRepo;
-	Car entityA("Dacia","Andrei","AG06DGA",1);
+	MemoryRepository<Car*> carRepo;
+	Car* entityA = new Car("Dacia","Andrei","AG06DGA",1);
 	carRepo.addEntity(entityA);
-	assert(carRepo.getEntity(1).getName() == entityA.getName() && carRepo.getEntity(1).getOwner() == entityA.getOwner() && carRepo.getEntity(1).getId() == entityA.getId());
+	assert(carRepo.getEntity(1)->getName() == entityA->getName() && carRepo.getEntity(1)->getOwner() == entityA->getOwner() && carRepo.getEntity(1)->getId() == entityA->getId());
 
-	MemoryRepository<CarWash> carWashRepo;
-    CarWash carWash("Self","Moiceanu Andrei",2);
+	MemoryRepository<CarWash*> carWashRepo;
+    CarWash* carWash = new CarWash("Self","Moiceanu Andrei",2);
     carWashRepo.addEntity(carWash);
-    assert(carWashRepo.getEntity(2).getName() == carWash.getName() && carWashRepo.getEntity(2).getOwner() == carWash.getOwner());
+    assert(carWashRepo.getEntity(2)->getName() == carWash->getName() && carWashRepo.getEntity(2)->getOwner() == carWash->getOwner());
 
 }
 
 
 void TestMemoryRepository::TestUpdateEntity(){
-	MemoryRepository<Entity> repo;
-	Entity firstEntity;
-	Entity secondEntity;
-	firstEntity.setId(1);
-	secondEntity.setId(2);
+	MemoryRepository<Entity*> repo;
+	Entity* firstEntity = new Entity();
+	Entity* secondEntity = new Entity();
+	firstEntity->setId(1);
+	secondEntity->setId(2);
     repo.addEntity(firstEntity);
     repo.updateEntity(firstEntity,secondEntity);
-    assert(repo.getEntity(2).getId() == 2);
+    assert(repo.getEntity(2)->getId() == 2);
 }
 
 void TestMemoryRepository::TestDeleteEntity(){
-	MemoryRepository<Entity> repo;
-	Entity firstEntity;
-	firstEntity.setId(1);
+	MemoryRepository<Entity*> repo;
+	Entity* firstEntity = new Entity();
+	firstEntity->setId(1);
 	repo.addEntity(firstEntity);
-	Entity deletedEntity = repo.deleteEntity(1);
-	assert(deletedEntity.getId() == firstEntity.getId());
+	Entity* deletedEntity = repo.deleteEntity(1);
+	assert(deletedEntity->getId() == firstEntity->getId());
 }
 
 void TestMemoryRepository::TestGetAllEntities(){
-	MemoryRepository<Car> carRepo;
-	std::vector<Car> cars;
-	cars.push_back(Car("Dacia","Andrei","AG06DGA",1));
-	cars.push_back(Car("BMW","Andrei","AG29MSE",2));
-	cars.push_back(Car("Mercedes","Andrei","B829AXM",3));
+	MemoryRepository<Car*> carRepo;
+	std::list<Car*> cars;
+	cars.push_back(new Car("Dacia","Andrei","AG06DGA",1));
+	cars.push_back(new Car("BMW","Andrei","AG29MSE",2));
+	cars.push_back(new Car("Mercedes","Andrei","B829AXM",3));
 	for(auto car : cars){
 		carRepo.addEntity(car);
 	}
-	std::vector<Car> entities = carRepo.getAllEntities();
-	for(int i=0;i<cars.size();i++){
-		assert(cars[i].getId() == entities[i].getId() && cars[i].getName() == entities[i].getName() && cars[i].getOwner() == entities[i].getOwner());
+	std::list<Car*> entities = carRepo.getAllEntities();
+	auto carIt = cars.begin();
+	auto entityIt = entities.begin();
+	for(; carIt != cars.end() && entityIt != entities.end();++carIt,++entityIt){
+		assert((*carIt)->getId() == (*entityIt)->getId());
 	}
 }

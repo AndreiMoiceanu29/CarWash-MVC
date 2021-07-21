@@ -2,6 +2,7 @@
 #define H_FACTORY_REPO
 #include <string>
 #include "FileRepository.h"
+#include "FactorySettings.h"
 template <class T>
 class RepoFactory
 {
@@ -11,10 +12,10 @@ private:
 public:
 	
 	
-	IRepository<T>* createRepository(std::string type){
-		if(type == "file"){
-			return new FileRepository<T>();
-		}else if(type == "memory"){
+	IRepository<T>* createRepository(FactorySettings settings){
+		if(settings.getRepoType() == FileRepoType::file){
+			return new FileRepository<T>(settings.getFilePath());
+		}else if(settings.getRepoType() == FileRepoType::memory){
 			return new MemoryRepository<T>();
 		}
 		return NULL;

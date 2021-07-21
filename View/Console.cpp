@@ -17,6 +17,8 @@ void Console::run(){
 		printMenu();
 		std::cin >> option;
 		switch(option){
+			case 0: hasExited = true; 
+			break;
 			case 1: handleAddCar();
 			break;
 			case 2: handleReadCar();
@@ -35,11 +37,23 @@ void Console::run(){
 			break;
 			case 9: handleMakeReservation();
 			break;
-			case 10: hasExited = true; 
+			case 10: displayAllCars();
+			break;
+			case 11: displayAllCarWash();
 			break;
 			default: std::cout << "Wrong option please try again !" << std::endl;
 		}
 	}
+}
+
+void Console::displayAllCars(){
+	std::vector<Car> cars = this->service.getAllCars();
+	std::vector<CarWash> carWashes = this->service.getAllCarWashes();
+	std::cout << "Toate masinile" << std::endl;
+	for(auto car: cars){
+		displayCar(car);
+	}
+	
 }
 
 void Console::printMenu(){
@@ -47,16 +61,17 @@ void Console::printMenu(){
 	std::cout << "Car Wash Dashboard" << std::endl;
 	std::cout << "******************" << std::endl;
 	std::cout << "Press one of the options bellow:" << std::endl;
+	std::cout << "0) Exit" << std::endl;
 	std::cout << "1) Add a Car" << std::endl;
 	std::cout << "2) Display Car info" << std::endl;
 	std::cout << "3) Update Car info" << std::endl;
-	std::cout << "4) Delete Car" << std::endl;
 	std::cout << "5) Add Car Wash" << std::endl;
 	std::cout << "6) Display Car Wash info" << std::endl;
 	std::cout << "7) Update Car Wash info" << std::endl;
 	std::cout << "8) Delete Car Wash" << std::endl;
 	std::cout << "9) Make a reservation" << std::endl;
-	std::cout << "10) Exit" << std::endl;
+	std::cout << "11) Display all cars" << std::endl;
+	std::cout << "12) Display all car washes" << std::endl;
 }
 
 void Console::handleAddCar(){
@@ -151,13 +166,14 @@ void Console::handleReadCarWash(){
 	std::cin >> id;
 	try{
 		carWash = this->service.readCarWash(id);
+		displayCarWash(carWash);
 	}catch(std::vector<std::string> msgs){
 		for(auto msg : msgs){
 			std::cout << msg << std::endl;
 		}
 	}
 	
-	displayCarWash(carWash);
+	
 }
 
 void Console::handleUpdateCarWash(){

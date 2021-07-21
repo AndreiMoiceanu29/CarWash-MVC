@@ -8,27 +8,28 @@
 
 class Service
 {
-	IRepository<Car>* carRepo;
-	IRepository<CarWash>* carWashRepo;
+	IRepository<Car*>* carRepo;
+	IRepository<CarWash*>* carWashRepo;
 	Validator dataValidator;
 public:
 	Service();
-	Service(IRepository<Car>*, IRepository<CarWash>*);
-	Service(Validator, IRepository<Car>*, IRepository<CarWash>*);
+	Service(IRepository<Car*>*, IRepository<CarWash*>*);
+	Service(Validator, IRepository<Car*>*, IRepository<CarWash*>*);
 	
-	void createCar(Car&);
+	void createCar(Car);
 	Car readCar(int id);
-	Car updateCar(Car& oldCar, Car& newCar);
+	Car updateCar(Car oldCar, Car newCar);
 	Car deleteCar(int id);
 
-	void createCarWash(CarWash&);
+	void createCarWash(CarWash);
 	CarWash readCarWash(int id);
-	CarWash updateCarWash(CarWash& odlCarWash, CarWash& newCarWash);
+	CarWash updateCarWash(CarWash odlCarWash, CarWash newCarWash);
 	CarWash deleteCarWash(int id);
 
 	void makeReservation(int carId, int carWashId);
 	
 	std::vector<CarWash> getAllCarWashes();
+	std::vector<Car> getAllCars();
 
 
 	

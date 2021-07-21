@@ -5,7 +5,6 @@
 #include "tests/TestService.h"
 #include "tests/TestValidator.h"
 #include "tests/TestCSVFileRepository.h"
-#include <iostream>
 int main(int argc, char const *argv[])
 {
 	/* code */
@@ -15,6 +14,6 @@ int main(int argc, char const *argv[])
 	TestMemoryRepository().TestAll();
 	TestService().TestAll();
 	TestValidator().TestAll();
-	TestCSVFileRepository().TestAll();
+	//TestCSVFileRepository().TestAll();
 	return 0;
 }

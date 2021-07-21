@@ -24,13 +24,14 @@ public:
 	void handleUpdateCarWash();
 
 	void handleMakeReservation();
-
+	
 	Car readCar();
 	void displayCar(Car &);
 
 	CarWash readCarWash();
 	void displayCarWash(CarWash &);
 	void displayAllCarWash();
+	void displayAllCars();
 };
 
 #endif

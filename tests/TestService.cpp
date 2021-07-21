@@ -16,8 +16,8 @@ void TestService::TestAll(){
 }
 
 void TestService::TestCreateAndReadCar(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Validator val;
 	Service service(val,&carRepo,&carWashRepo);
 	Car car("Dacia","Andrei","AG00AAA",1);
@@ -27,8 +27,8 @@ void TestService::TestCreateAndReadCar(){
 }
 
 void TestService::TestUpdateCar(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	Car car("Dacia","Andrei","AG00AAA",1);
 	service.createCar(car);
@@ -39,8 +39,8 @@ void TestService::TestUpdateCar(){
 }
 
 void TestService::TestDeleteCar(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	Car car("Dacia","Andrei","AG00AAA",1);
 	service.createCar(car);
@@ -49,8 +49,8 @@ void TestService::TestDeleteCar(){
 }
 
 void TestService::TestCreateAndReadCarwash(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
 	service.createCarWash(carWash);
@@ -59,19 +59,21 @@ void TestService::TestCreateAndReadCarwash(){
 }
 
 void TestService::TestUpdateCarwash(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
 	service.createCarWash(carWash);
 	CarWash newCarWash("Oxi","Moiceanu Andrei",33);
-	CarWash updatedCarWash = service.updateCarWash(carWash,newCarWash);
+	CarWash old = service.updateCarWash(carWash,newCarWash);
+	CarWash updatedCarWash = service.readCarWash(33);
 	assert(updatedCarWash.getId() == newCarWash.getId());
+	assert(old.getId() == carWash.getId());
 }
 
 void TestService::TestDeleteCarwash(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
 	service.createCarWash(carWash);
@@ -80,8 +82,8 @@ void TestService::TestDeleteCarwash(){
 }
 
 void TestService::TestMakeReservation(){
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
 	service.createCarWash(carWash);
@@ -102,8 +104,8 @@ void TestService::TestMakeReservation(){
 
 void TestService::TestGetAllCarWashes(){
 	Service servA;
-	MemoryRepository<Car> carRepo;
-	MemoryRepository<CarWash> carWashRepo;
+	MemoryRepository<Car*> carRepo;
+	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
 	CarWash carB("Oxi","Moiceanu Andrei",33);
