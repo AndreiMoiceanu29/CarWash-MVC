@@ -19,8 +19,23 @@ void Car::setOwner(std::string carOwner){ this->owner = carOwner;}
 std::string Car::getPlateNumber(){ return this->plateNumber;}
 void Car::setPlateNumber(std::string plateNum){ this->plateNumber = plateNum;}
 
+void Car::attach(IObserver *obs){
+	this->observers.push_back(obs);
+}
+void Car::dettach(IObserver *obs){
+	this->observers.remove(obs);
+}
+
+void Car::notify(){
+	std::list<IObserver *>::iterator it = this->observers.begin();
+	while(it != observers.end()){
+		(*it)->update(this->id);
+		++it;
+	}
+}
 
 
 
-
-Car::~Car(){}
+Car::~Car(){
+	
+}

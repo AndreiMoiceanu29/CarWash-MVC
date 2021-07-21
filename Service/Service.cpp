@@ -31,7 +31,7 @@ Car Service::updateCar(Car& oldCar, Car& newCar){
 Car Service::deleteCar(int id){
 	this->dataValidator.validateIdForCar(id, this->carRepo->getAllEntities());
 	Car deletedCar = this->carRepo->deleteEntity(id);
-	
+	deletedCar.notify();
 	return deletedCar;
 }
 

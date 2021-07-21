@@ -4,8 +4,9 @@
 #include <string>
 #include <vector>
 #include "Entity.h"
+#include "IObserver.h"
 
-class CarWash: public Entity
+class CarWash: public Entity, public IObserver
 {
 	std::string name;
 	std::string owner;
@@ -22,7 +23,7 @@ public:
 	
 	std::vector<int> getCarIds();
 	void setCarIds(std::vector<int>);
-
+	void update(int);
 	~CarWash();
 
 	

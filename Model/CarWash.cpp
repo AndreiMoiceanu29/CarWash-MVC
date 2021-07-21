@@ -19,4 +19,13 @@ void CarWash::setOwner(std::string carWashOwner){ this->owner = carWashOwner; }
 std::vector<int> CarWash::getCarIds(){ return this->carIds; }
 void CarWash::setCarIds(std::vector<int> carIdsList){ this->carIds = carIdsList; }
 
+void CarWash::update(int carId){
+	for(unsigned int i=0;i<this->carIds.size();i++){
+		if(carIds[i] == carId){
+			carIds.erase(carIds.begin() + i);
+			break;
+		}
+	}
+}
+
 CarWash::~CarWash(){}
