@@ -1,25 +1,24 @@
+#ifndef H_FILE_REPO
+#define H_FILE_REPO
 #include "MemoryRepository.h"
 #include "Car.h"
 #include "CarWash.h"
 #include <fstream>
 #include <iostream>
-
-std::vector<std::string> split(const char *str, char c = ' ')
-{
-    std::vector<std::string> result;
-
-    do
-    {
-        const char *begin = str;
-
-        while(*str != c && *str)
-            str++;
-
-        result.push_back(std::string(begin, str));
-    } while (0 != *str++);
+namespace utils{
+	std::vector<std::string> split(const char *str, char c = ' '){
+    	std::vector<std::string> result;
+    	do{
+        	const char *begin = str;
+        	while(*str != c && *str)
+            	str++;
+        	result.push_back(std::string(begin, str));
+    	}while (0 != *str++);
 
     return result;
+	}	
 }
+
 
 template<typename Base, typename T2>
 inline bool instanceof(const T2*) {
@@ -89,7 +88,7 @@ public:
 				std::getline(ifs,name,',');
 				std::getline(ifs,owner,',');
 				std::getline(ifs,carIdsUntokenized,'\n');
-				std::vector<std::string> carIds = split(carIdsUntokenized.c_str(),':');
+				std::vector<std::string> carIds = utils::split(carIdsUntokenized.c_str(),':');
 				std::vector<int> ids;
 				for(auto carId: carIds){
 					if(carId.size() != 0){
@@ -138,3 +137,4 @@ public:
 	
 	
 };
+#endif

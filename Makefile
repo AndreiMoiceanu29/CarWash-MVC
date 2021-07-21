@@ -1,6 +1,6 @@
 CC=g++
-# COMPILE_FLAGS=-Wall -Wextra  -Wstrict-aliasing -pedantic  -Werror -Wunreachable-code -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option -g -c
-COMPILE_FLAGS=-Wall -Wextra
+COMPILE_FLAGS=-Wall -Wextra  -Wstrict-aliasing -pedantic  -Werror -Wunreachable-code -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option -g -c
+# COMPILE_FLAGS=-Wall -Wextra -Werror -std=c++11
 # Am scos -Werror pentru ca face figuri cu versiunea de c++
 INC_DIRECTORY=inc
 INCLUDE_FLAG=-I$(INC_DIRECTORY)
