@@ -1,5 +1,6 @@
 #include "Service.h"
 #include <vector>
+#include <iostream>
 Service::Service(){}
 
 Service::Service(Validator dataVal, IRepository<Car> *carRepository, IRepository<CarWash> *carWashRepository){
@@ -31,7 +32,9 @@ Car Service::updateCar(Car& oldCar, Car& newCar){
 Car Service::deleteCar(int id){
 	this->dataValidator.validateIdForCar(id, this->carRepo->getAllEntities());
 	Car deletedCar = this->carRepo->deleteEntity(id);
+	std::cout << deletedCar.getId() << std::endl;
 	deletedCar.notify();
+
 	return deletedCar;
 }
 
@@ -66,7 +69,11 @@ void Service::makeReservation(int carId, int carWashId){
 	this->dataValidator.validateIdForCar(carId,this->carRepo->getAllEntities());
 	this->dataValidator.validateIdForCarWash(carWashId,this->carWashRepo->getAllEntities());
 	std::vector<int> carIds = this->carWashRepo->getEntity(carWashId).getCarIds();
-
+	CarWash observer = this->carWashRepo->getEntity(carWashId);
+	Car old = this->carRepo->getEntity(carId);
+	Car temp = old;
+	temp.attach(&observer);
+	this->carRepo->updateEntity(old,temp);
 	carIds.push_back(carId);
 	CarWash oldWash = this->carWashRepo->getEntity(carWashId);
 	CarWash newWash = this->carWashRepo->getEntity(carWashId);
