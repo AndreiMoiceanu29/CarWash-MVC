@@ -40,3 +40,10 @@ void TestCar::TestConstructor(){
 	Car car("Dacia Sandero","Moiceanu Andrei","AG06DGA",1);
 	assert(car.getName() == "Dacia Sandero" && car.getOwner() == "Moiceanu Andrei" && car.getPlateNumber() == "AG06DGA" && car.getId() == 1);
 }
+
+void TestCar::TestAttach(){
+	CarWash* carWash = new CarWash("Self","Moiceanu Andrei",1);
+	Car car;
+	car.attach(carWash);
+	//TODO: Implement this tommorow
+}
