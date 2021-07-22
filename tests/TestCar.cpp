@@ -1,7 +1,8 @@
 #include <assert.h>
 #include "Car.h"
 #include "tests/TestCar.h"
-
+#include "CarWash.h"
+#include <vector>
 TestCar::TestCar(){}
 
 void TestCar::TestAll(){
@@ -9,6 +10,7 @@ void TestCar::TestAll(){
 	this->TestGetOwnerAndSetOwner();
 	this->TestGetPlateAndSetPlate();
 	this->TestConstructor();
+	this->TestPublisher();
 }
 
 void TestCar::TestGetNameAndSetName(){
@@ -41,9 +43,17 @@ void TestCar::TestConstructor(){
 	assert(car.getName() == "Dacia Sandero" && car.getOwner() == "Moiceanu Andrei" && car.getPlateNumber() == "AG06DGA" && car.getId() == 1);
 }
 
-void TestCar::TestAttach(){
+void TestCar::TestPublisher(){
 	CarWash* carWash = new CarWash("Self","Moiceanu Andrei",1);
-	Car car;
+	Car car("Dacia Sandero","Moiceanu Andrei","AG06DGA",1);
+	CarWash* carWash2 = new CarWash("Oxi","Moiceanu Andrei",2);
+	std::vector<int> ids;
+	ids.push_back(car.getId());
+	carWash->setCarIds(ids);
+	carWash2->setCarIds(ids);
 	car.attach(carWash);
-	//TODO: Implement this tommorow
+	car.attach(carWash2);
+	car.dettach(carWash);
+	car.notify();
+	assert(carWash->getCarIds().size() == 1 && carWash2->getCarIds().size() == 0);
 }

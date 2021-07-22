@@ -9,7 +9,5 @@ private:
 	void TestGetOwnerAndSetOwner();
 	void TestGetPlateAndSetPlate();
 	void TestConstructor();
-	void TestAttach();
-	void TestDettach();
-	void TestNotify();
+	void TestPublisher();
 };

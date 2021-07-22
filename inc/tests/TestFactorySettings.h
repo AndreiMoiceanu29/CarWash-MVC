@@ -7,4 +7,4 @@ public:
 	TestFactorySettings();
 	void TestAll();
 
-}
+};

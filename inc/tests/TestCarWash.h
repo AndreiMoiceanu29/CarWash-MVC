@@ -10,6 +10,7 @@ private:
 	void TestGetAndSetOwner();
 	void TestGetAndSetCarIds();
 	void TestConstructor();
+	void TestSubscriber();
 
 	
 };

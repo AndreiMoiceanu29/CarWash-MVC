@@ -50,3 +50,22 @@ void TestCarWash::TestConstructor(){
 	assert(carWash.getOwner() == "Moiceanu Andrei"); 
 	assert(carWash.getId() == 1); 
 }
+
+void TestCarWash::TestSubscriber(){
+	CarWash wash("Self","Moiceanu Andrei",1);
+
+	std::vector<int> ids;
+	for(int i=1;i<10;i++){
+		ids.push_back(i);
+	}
+	wash.setCarIds(ids);
+	wash.update(1);
+	std::vector<int> carIds = wash.getCarIds();
+	for(int i=0;i<10;i++){
+		if(carIds[i] == 1){
+			assert(false);
+		}
+	}
+	assert(true);
+
+}

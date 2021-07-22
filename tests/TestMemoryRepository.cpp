@@ -26,6 +26,7 @@ void TestMemoryRepository::TestGetAndAddEntity(){
     CarWash* carWash = new CarWash("Self","Moiceanu Andrei",2);
     carWashRepo.addEntity(carWash);
     assert(carWashRepo.getEntity(2)->getName() == carWash->getName() && carWashRepo.getEntity(2)->getOwner() == carWash->getOwner());
+    assert(carWashRepo.getEntity(222) == NULL);
 
 }
 

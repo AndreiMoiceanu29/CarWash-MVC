@@ -5,6 +5,8 @@
 #include "tests/TestService.h"
 #include "tests/TestValidator.h"
 #include "tests/TestCSVFileRepository.h"
+#include "tests/TestFactorySettings.h"
+#include "tests/TestRepoFactory.h"
 int main(int argc, char const *argv[])
 {
 	/* code */
@@ -14,6 +16,8 @@ int main(int argc, char const *argv[])
 	TestMemoryRepository().TestAll();
 	TestService().TestAll();
 	TestValidator().TestAll();
-	//TestCSVFileRepository().TestAll();
+	TestFactorySettings().TestAll();
+	TestRepoFactory().TestAll();
+	TestCSVFileRepository().TestAll();
 	return 0;
 }

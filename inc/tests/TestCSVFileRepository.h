@@ -6,6 +6,9 @@ class TestCSVFileRepository
 {
 private:
 	void TestLoadAndStoreFromFile();
+	void TestLoadAndStoreCarWash();
+	void TestUpdate();
+	void TestDelete();
 
 public:
 	TestCSVFileRepository();

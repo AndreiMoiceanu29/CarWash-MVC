@@ -5,26 +5,7 @@
 #include "CarWash.h"
 #include <fstream>
 #include <iostream>
-namespace utils{
-	std::vector<std::string> split(const char *str, char c = ' '){
-    	std::vector<std::string> result;
-    	do{
-        	const char *begin = str;
-        	while(*str != c && *str)
-            	str++;
-        	result.push_back(std::string(begin, str));
-    	}while (0 != *str++);
-
-    return result;
-	}	
-
-	template<typename Base, typename T2>
-	inline bool instanceof(const T2*) {
-   		return std::is_base_of<Base, T2>::value;
-	}
-	
-}
-
+#include "Utilities.h"
 
 
 template <class T>
@@ -59,10 +40,10 @@ public:
 	}
 
 	void loadFromFile(){
-		T object_type;
+		T *object_type = new T;
 		std::ifstream ifs(this->fileName);
 		
-		if(utils::instanceof<Car>(object_type)) {
+		if(Utilities::instanceof<Car>(*object_type)) {
 			std::string name;
 			std::string owner;
 			std::string plateNumber;
@@ -80,7 +61,7 @@ public:
 				this->addEntity(*entity);
 
 			}
-		} else if(utils::instanceof<CarWash>(&object_type)){
+		} else if(Utilities::instanceof<CarWash>(*object_type)){
 			while(!ifs.eof()){
 				std::string name;
 				std::string id;
@@ -90,7 +71,7 @@ public:
 				std::getline(ifs,name,',');
 				std::getline(ifs,owner,',');
 				std::getline(ifs,carIdsUntokenized,'\n');
-				std::vector<std::string> carIds = utils::split(carIdsUntokenized.c_str(),':');
+				std::vector<std::string> carIds = Utilities::split(carIdsUntokenized.c_str(),':');
 				std::vector<int> ids;
 				for(auto carId: carIds){
 					if(carId.size() != 0){
@@ -112,23 +93,26 @@ public:
 		
 	}
 	void storeToFile(){
-		T object_type;
+		T *object_type = new T;
 		std::ofstream ofs(this->fileName);
+
 		for(auto obj: this->database){
-			if(utils::instanceof<Car>(&object_type)){
-				Car car = *static_cast<Car*>(static_cast<void*>(obj));
 
-				ofs << car.getId() << ",";
-				ofs << car.getName() << ",";
-				ofs << car.getPlateNumber() << ",";
-				ofs << car.getOwner() << std::endl;
-			} else if(utils::instanceof<CarWash>(&object_type)) {
-				CarWash carWash = *static_cast<CarWash*>(static_cast<void*>(&obj));
-				std::vector<int> carIds = carWash.getCarIds();
+			if(Utilities::instanceof<Car>(*object_type)){
 
-				ofs << carWash.getId() << ",";
-				ofs << carWash.getName() << ",";
-				ofs << carWash.getOwner() << ",";
+				Car *car = static_cast<Car*>(static_cast<void*>(obj));
+				
+				ofs << car->getId() << ",";
+				ofs << car->getName() << ",";
+				ofs << car->getPlateNumber() << ",";
+				ofs << car->getOwner() << std::endl;
+			} else if(Utilities::instanceof<CarWash>(*object_type)) {
+				CarWash *carWash = static_cast<CarWash*>(static_cast<void*>(obj));
+				std::vector<int> carIds = carWash->getCarIds();
+
+				ofs << carWash->getId() << ",";
+				ofs << carWash->getName() << ",";
+				ofs << carWash->getOwner() << ",";
 				for(auto id : carIds){
 					ofs << id << ":";
 				}

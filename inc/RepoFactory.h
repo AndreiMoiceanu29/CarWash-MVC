@@ -15,10 +15,10 @@ public:
 	IRepository<T>* createRepository(FactorySettings settings){
 		if(settings.getRepoType() == FileRepoType::file){
 			return new FileRepository<T>(settings.getFilePath());
-		}else if(settings.getRepoType() == FileRepoType::memory){
+		}else{
 			return new MemoryRepository<T>();
 		}
-		return NULL;
+		
 	}
 
 	static RepoFactory<T>* getInstance(){

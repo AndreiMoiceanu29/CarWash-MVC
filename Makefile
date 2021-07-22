@@ -13,7 +13,7 @@ COMPILE=$(CC) $(FLAGS)
 REPORT_FILE=report.info
 TEST_OUTPUT_FILE=main_test
 TEST_DIRECTORY=tests
-TEST_FILES=TestCar.cpp TestCarWash.cpp TestEntity.cpp TestMemoryRepository.cpp TestService.cpp TestValidator.cpp TestCSVFileRepository.cpp
+TEST_FILES=TestCar.cpp TestCarWash.cpp TestEntity.cpp TestMemoryRepository.cpp TestService.cpp TestValidator.cpp TestCSVFileRepository.cpp TestFactorySettings.cpp TestRepoFactory.cpp
 TEST_COMPILE_FILES=$(TEST_FILES:%.cpp=$(TEST_DIRECTORY)/%.cpp)
 TEST_COMPILE_FILES_WITH_MAIN=$(TEST_COMPILE_FILES) $(TEST_DIRECTORY)/$(TEST_MAIN_FILE)
 TEST_MAIN_FILE = main_test.cpp

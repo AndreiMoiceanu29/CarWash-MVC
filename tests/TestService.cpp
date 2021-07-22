@@ -76,7 +76,13 @@ void TestService::TestDeleteCarwash(){
 	MemoryRepository<CarWash*> carWashRepo;
 	Service service(&carRepo,&carWashRepo);
 	CarWash carWash("Self","Moiceanu Andrei",22);
+	Car car("Dacia","Andrei","AG00AAA",1);
+	std::vector<int> carIds;
 	service.createCarWash(carWash);
+	service.createCar(car);
+	service.makeReservation(1,22);
+	
+
 	CarWash deletedCarWash = service.deleteCarWash(22);
 	assert(deletedCarWash.getId() == carWash.getId());
 }
